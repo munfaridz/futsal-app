@@ -68,56 +68,64 @@ class BookingResource extends Resource
             ]);
     }
 
-    public static function table(Table $table): Table
-    {
-        return $table
-            ->contentGrid([
-                'md' => 2,
-                'xl' => 3,
-            ])
-            ->columns([
-                Tables\Columns\Layout\Stack::make([
-                    Tables\Columns\TextColumn::make('lapangan')
-                        ->weight('bold')
-                        ->size('lg')
-                        ->icon('heroicon-m-trophy'),
-                    Tables\Columns\TextColumn::make('nama_tim')
-                        ->color('gray'),
-                    Tables\Columns\Layout\Split::make([
-                        Tables\Columns\TextColumn::make('tanggal')
-                            ->date('d M Y')
-                            ->icon('heroicon-m-calendar'),
-                        Tables\Columns\TextColumn::make('jam_mulai')
-                            ->icon('heroicon-m-clock'),
-                    ]),
-                    
-                    // BAGIAN HARGA DITAMBAHKAN DI SINI (Dalam Split agar sejajar)
-                    Tables\Columns\Layout\Split::make([
-                        Tables\Columns\TextColumn::make('durasi')
-                            ->suffix(' Jam Penyewaan')
-                            ->color('primary'),
-                        
-                        Tables\Columns\TextColumn::make('total_harga')
-                            ->money('IDR') // Format Rupiah otomatis
-                            ->weight('bold')
-                            ->color('success') // Warna hijau agar kontras
-                            ->alignEnd(),
-                    ])->extraAttributes(['class' => 'border-t border-blue-100 pt-2 mt-2']),
+public static function table(Table $table): Table
+{
+    return $table
+        ->contentGrid([
+            'md' => 2,
+            'xl' => 3,
+        ])
+        ->columns([
+            Tables\Columns\Layout\Stack::make([
+                // Header: Nama Lapangan
+                Tables\Columns\TextColumn::make('lapangan')
+                    ->weight('bold')
+                    ->size('lg')
+                    ->icon('heroicon-m-trophy'),
 
-                ])->space(3)
-                ->extraAttributes([
-                    'class' => 'bg-white border-2 border-blue-50 rounded-2xl shadow-sm hover:border-blue-400 hover:shadow-lg transition-all p-5',
-                    'style' => 'border-top: 6px solid #2563eb;', 
-                ])
+                // Sub-Header: Nama Tim (Timsar, MU, dll)
+                Tables\Columns\TextColumn::make('nama_tim')
+                    ->weight('bold')
+                    ->size('lg')
+                    ->color('primary')
+                    ->searchable(),
+
+                // Baris Info: Tanggal dan Jam
+                Tables\Columns\Layout\Split::make([
+                    Tables\Columns\TextColumn::make('tanggal')
+                        ->date('d M Y')
+                        ->icon('heroicon-m-calendar'),
+                    Tables\Columns\TextColumn::make('jam_mulai')
+                        ->icon('heroicon-m-clock'),
+                ]),
+                
+                // Footer: Durasi dan Harga
+                Tables\Columns\Layout\Split::make([
+                    Tables\Columns\TextColumn::make('durasi')
+                        ->suffix(' Jam')
+                        ->color('gray'),
+                    
+                    Tables\Columns\TextColumn::make('total_harga')
+                        ->money('IDR')
+                        ->weight('bold')
+                        ->color('success')
+                        ->alignEnd(),
+                ])->extraAttributes(['class' => 'border-t border-blue-100 pt-2 mt-2']),
+
+            ])->space(3)
+            ->extraAttributes([
+                'class' => 'bg-white border-2 border-blue-50 rounded-2xl shadow-sm hover:border-blue-400 hover:shadow-lg transition-all p-5',
+                'style' => 'border-top: 6px solid #2563eb;', 
             ])
-            ->filters([
-                //
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make()->button()->color('info'),
-                Tables\Actions\DeleteAction::make()->button(),
-            ]);
-    }
+        ])
+        ->filters([
+            //
+        ])
+        ->actions([
+            Tables\Actions\EditAction::make()->button()->color('info'),
+            Tables\Actions\DeleteAction::make()->button(),
+        ]);
+}
 
     public static function getRelations(): array
     {

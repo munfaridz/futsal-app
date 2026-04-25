@@ -34,6 +34,10 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->font('Poppins')
             ->darkMode(true)
+            ->widgets([
+                Widgets\AccountWidget::class,
+                // Widgets\FilamentInfoWidget::class, // Sudah dimatikan
+            ])
 
             // --- CSS CUSTOM UNTUK BACKGROUND GAMBAR ---
 // Tambahkan di dalam renderHook panels::body.start yang tadi sudah kita buat
